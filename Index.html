@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>E-book: Cultivando Inocência e Sabedoria na Vida Pós-Moderna</title>
+    <style>
+        /* Todo o CSS anterior permanece o mesmo */
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #f5f5f5;
+        }
+        .form-container {
+            background-color: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        .step {
+            display: none;
+        }
+        .step.active {
+            display: block;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        input[type="text"],
+        input[type="email"],
+        input[type="tel"],
+        input[type="date"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        .consent-box {
+            background-color: #f9f9f9;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 5px;
+        }
+        .consent-box p {
+            line-height: 1.6;
+            color: #333;
+        }
+        .checkbox-group {
+            margin-top: 10px;
+        }
+        .button-group {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button.previous {
+            background-color: #666;
+        }
+        button:hover {
+            opacity: 0.9;
+        }
+        .progress-bar {
+            width: 100%;
+            height: 10px;
+            background-color: #ddd;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .progress {
+            height: 100%;
+            background-color: #4CAF50;
+            border-radius: 5px;
+            transition: width 0.3s ease;
+        }
+        .required {
+            color: red;
+        }
+        .step-title {
+            margin-bottom: 20px;
+            color: #333;
+        }
+        .hidden {
+            display: none !important;
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <div class="progress-bar">
+            <div class="progress" style="width: 25%"></div>
+        </div>
+        
+        <!-- Adicionando atributos do Netlify -->
+        <form id="ebookForm" name="ebook-download" method="POST" data-netlify="true">
+            <!-- Campo oculto para o Netlify -->
+            <input type="hidden" name="form-name" value="ebook-download">
+            
+            <!-- Campos ocultos para armazenar os dados -->
+            <div class="hidden">
+                <input type="text" name="allData" id="allDataField">
+            </div>
+
+            <!-- Etapa 1: Informações Básicas -->
+            <div class="step active" id="step1">
+                <h2 class="step-title">Etapa 1: Informações Pessoais</h2>
+                <div class="form-group">
+                    <label>Nome Completo: <span class="required">*</span></label>
+                    <input type="text" name="nome" required>
+                </div>
+                <div class="form-group">
+                    <label>Data de Nascimento: <span class="required">*</span></label>
+                    <input type="date" name="nascimento" required>
+                </div>
+                <div class="form-group">
+                    <label>WhatsApp: <span class="required">*</span></label>
+                    <input type="tel" name="whatsapp" required>
+                </div>
+                <div class="form-group">
+                    <label>E-mail Principal: <span class="required">*</span></label>
+                    <input type="email" name="email" required>
+                </div>
+                <div class="button-group">
+                    <div></div>
+                    <button type="button" onclick="nextStep(1)">Próximo</button>
+                </div>
+            </div>
+
+            <!-- Etapa 2: Informações Complementares -->
+            <div class="step" id="step2">
+                <h2 class="step-title">Etapa 2: Informações Complementares</h2>
+                <div class="form-group">
+                    <label>Cidade-Estado-País: <span class="required">*</span></label>
+                    <input type="text" name="localizacao" required>
+                </div>
+                <div class="form-group">
+                    <label>Profissão: <span class="required">*</span></label>
+                    <input type="text" name="profissao" required>
+                </div>
+                <div class="form-group">
+                    <label>Estado Civil: <span class="required">*</span></label>
+                    <select name="estado-civil" required>
+                        <option value="">Selecione...</option>
+                        <option value="solteiro">Solteiro(a)</option>
+                        <option value="casado">Casado(a)</option>
+                        <option value="divorciado">Divorciado(a)</option>
+                        <option value="viuvo">Viúvo(a)</option>
+                        <option value="outro">Outro</option>
+                    </select>
+                </div>
+                <div class="button-group">
+                    <button type="button" class="previous" onclick="previousStep(2)">Anterior</button>
+                    <button type="button" onclick="nextStep(2)">Próximo</button>
+                </div>
+            </div>
+
+            <!-- Etapa 3: Perfil -->
+            <div class="step" id="step3">
+                <h2 class="step-title">Etapa 3: Perfil</h2>
+                <div class="form-group">
+                    <label>Número de Filhos: <span class="required">*</span></label>
+                    <input type="number" name="filhos" min="0" required>
+                </div>
+                <div class="form-group">
+                    <label>Religião ou Filosofia de Vida: <span class="required">*</span></label>
+                    <input type="text" name="religiao" required>
+                </div>
+                <div class="form-group">
+                    <label>Motivo da Aquisição do E-book: <span class="required">*</span></label>
+                    <textarea name="motivo" rows="4" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Você conhece meu trabalho de mentoria e aconselhamento? <span class="required">*</span></label>
+                    <select name="conhece-trabalho" required>
+                        <option value="">Selecione...</option>
+                        <option value="sim">Sim</option>
+                        <option value="nao">Não</option>
+                    </select>
+                </div>
+                <div class="button-group">
+                    <button type="button" class="previous" onclick="previousStep(3)">Anterior</button>
+                    <button type="button" onclick="nextStep(3)">Próximo</button>
+                </div>
+            </div>
+
+            <!-- Etapa 4: Termos -->
+            <div class="step" id="step4">
+                <h2 class="step-title">Etapa 4: Informações Finais</h2>
+                <div class="consent-box">
+                    <h3>Sobre o Livro</h3>
+                    <p>"Cultivando Inocência e Sabedoria na Vida Pós-Moderna" é um guia prático ilustrado que propõe um caminho para equilibrar duas qualidades aparentemente contraditórias: a pureza da inocência e a profundidade da sabedoria. Através de 17 capítulos ricamente desenvolvidos, o autor André Luís Roque Cardoso oferece ferramentas práticas e reflexões teóricas para que o leitor possa manter sua essência bondosa enquanto desenvolve a perspicácia necessária para navegar pelos desafios do mundo contemporâneo. A obra aborda desde exercícios práticos de gratidão e bondade até análises profundas sobre relacionamentos, vida profissional e desenvolvimento pessoal, tudo isso apoiado em uma sólida base bibliográfica que une conhecimentos ancestrais e modernos.</p>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="bookConsent" name="concordo-livro" required>
+                        <label for="bookConsent">Estou ciente e concordo com as informações sobre o livro</label>
+                    </div>
+                </div>
+                
+                <div class="consent-box">
+                    <h3>Sobre o Autor</h3>
+                    <p>André Luís Roque Cardoso é mentor e consultor especializado em desenvolvimento pessoal e relacionamentos desde 2006. Graduado em Zootecnia pela UNESP, com estudos em Ciências Jurídicas, realizou sua especialização em Genética do Comportamento Humano, Teologia Moral e Política Cultural em Roma, Itália (2003). Sua formação única combina o estudo científico dos temperamentos e da correlação genética entre características faciais e tendências comportamentais.</p>
+                    <p>Com 50 anos de idade, é casado há 18 anos e pai de dois filhos, residindo atualmente em Piracicaba-SP. Seu diferencial como mentor vem de uma jornada singular de autoconhecimento, que inclui o estudo aprofundado de mais de 30 denominações e filosofias religiosas. Sua prática espiritual pessoal, fundamentada em 18 experiências sobrenaturais significativas e na disciplina do Exame de Consciência semanal, fortalece sua conexão com o Cristianismo, que considera seu caminho de constante aprimoramento.</p>
+                    <div class="checkbox-group">
+                        <input type="checkbox" id="authorConsent" name="concordo-autor" required>
+                        <label for="authorConsent">Estou ciente e concordo com as informações sobre o autor</label>
+                    </div>
+                </div>
+                <div class="button-group">
+                    <button type="button" class="previous" onclick="previousStep(4)">Anterior</button>
+                    <button type="submit">Receber E-book</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        function nextStep(currentStep) {
+            document.getElementById('step' + currentStep).classList.remove('active');
+            document.getElementById('step' + (currentStep + 1)).classList.add('active');
+            updateProgressBar(currentStep + 1);
+        }
+
+        function previousStep(currentStep) {
+            document.getElementById('step' + currentStep).classList.remove('active');
+            document.getElementById('step' + (currentStep - 1)).classList.add('active');
+            updateProgressBar(currentStep - 1);
+        }
+
+        function updateProgressBar(step) {
+            const progress = (step / 4) * 100;
+            document.querySelector('.progress').style.width = progress + '%';
+        }
+
+        // Código atualizado para o Netlify
+        document.getElementById('ebookForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            // Coleta todos os dados do formulário
+            const formData = new FormData(this);
+            const allData = {};
+            for (let [key, value] of formData.entries()) {
+                allData[key] = value;
+            }
+            
+            // Atualiza o campo oculto com todos os dados
+            document.getElementById('allDataField').value = JSON.stringify(allData);
+            
+            // Envia o formulário
+            this.submit();
+        });
+    </script>
+</body>
+</html>
